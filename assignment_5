@@ -28,14 +28,14 @@ def get_population():
     while True:
         population = input("Enter the population of the country (in millions, e.g., 331 for 331 million): ").strip()
         if population.isdigit():
-            # Round to nearest 100 million
+            # round to nearest 100 million
             return round(int(population) / 100) * 100
-        print("Invalid input. Please enter a numeric value for population.")
+        print("Oops! That won't work. Please enter a numeric value for population.")
 
 # --- main program setup ---
 
 def main():
-    print("Welcome to the Country Information Program!")
+    print("Welcome to the Country Info Program!")
     print("This program stores countries, their capitals, continents, and populations.\n")
     print("This program requires at least three countries to be entered before getting to the fun stuff: viewing and comparing country data.\n")
 
