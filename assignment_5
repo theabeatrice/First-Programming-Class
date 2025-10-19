@@ -1,0 +1,182 @@
+'''
+Thea Labuntog thl1733@rit.edu
+ISCH-620 Assignment 5: Dictionaries and Recursion
+GenAI Statement: I used GenAI to help with code structure and examples of how to use recursion with dictionaries. All code and comments are my own.
+'''
+
+# --- helper functions ---
+
+def get_menu_choice():
+    choice = input("Choose an option (1, 2, 3, or Q/q to quit): ").strip()
+    return choice
+
+def get_country():
+    country = input("Enter a country name (or 'Q/q' to quit): ").strip().title()
+    if country.lower() == 'q':
+        return None
+    return country
+
+def get_capital():
+    capital = input("Enter the capital of the country: ").strip().title()
+    return capital
+
+def get_continent():
+    continent = input("Enter the continent of the country: ").strip().title()
+    return continent
+
+def get_population():
+    while True:
+        population = input("Enter the population of the country (in millions, e.g., 331 for 331 million): ").strip()
+        if population.isdigit():
+            # Round to nearest 100 million
+            return round(int(population) / 100) * 100
+        print("Invalid input. Please enter a numeric value for population.")
+
+# --- main program setup ---
+
+def main():
+    print("Welcome to the Country Information Program!")
+    print("This program stores countries, their capitals, continents, and populations.\n")
+    print("This program requires at least three countries to be entered before getting to the fun stuff: viewing and comparing country data.\n")
+
+    capitals = {}
+    continents = {}
+    populations = {}
+
+    print("Please enter information for at least 3 countries.")
+    count = 0
+
+    while count < 3:
+        country = get_country()
+        if country is None:
+            print("You must enter at least three countries before quitting.")
+            continue
+        if country in capitals:
+            print("Country already entered. Please enter a different country.")
+            continue
+
+        capital = get_capital()
+        continent = get_continent()
+        population = get_population()
+
+        capitals[country] = capital
+        continents[country] = continent
+        populations[country] = population
+        count += 1
+
+    print("\nYou have entered the following countries:")
+    print(list(capitals.keys()))
+
+    main_menu(capitals, continents, populations)
+
+
+# --- updating and viewing data ---
+
+def update_countries(capitals, continents, populations):
+    print("\n--- Update Countries ---")
+    print("1. Add a country")
+    print("2. Remove a country")
+    print("Q/q. Return to main menu")
+    choice = get_menu_choice()
+
+    if choice == '1':
+        country = get_country()
+        if country is None:
+            return
+        if country in capitals:
+            print("Country already exists. Please enter a different country.")
+            return
+        capital = get_capital()
+        continent = get_continent()
+        population = get_population()
+        capitals[country] = capital
+        continents[country] = continent
+        populations[country] = population
+        print(f"{country} has been added.")
+
+    elif choice == '2':
+        country = get_country()
+        if country is None:
+            return
+        if country not in capitals:
+            print("Country not found. Please enter a valid country to remove.")
+            return
+        del capitals[country]
+        del continents[country]
+        del populations[country]
+        print(f"{country} has been removed.")
+
+    elif choice.lower() == 'q':
+        return
+
+    else:
+        print("Invalid choice. Please select 1, 2, or Q/q to quit.")
+
+    print("\nCurrent countries:")
+    print(list(capitals.keys()))
+
+
+def show_country_details(capitals, continents, populations):
+    country = input("\nEnter a country name to see its details (or 'Q/q' to quit): ").strip().title()
+    if country.lower() == 'q':
+        return
+
+    if country in capitals:
+        print(f"\nCountry: {country}")
+        print(f"Capital: {capitals[country]}")
+        print(f"Continent: {continents[country]}")
+        print(f"Population: {populations[country]} million")
+    else:
+        print("Country not found.")
+        return
+
+    try:
+        value = float(input("\nEnter a population value (in millions) to compare: ").strip())
+        value = round(value / 100) * 100
+
+        print(f"\nCountries with population above {value} million:")
+        for c in populations:
+            if populations[c] > value:
+                print(f"- {c} ({populations[c]} million)")
+
+        print(f"\nCountries with population below {value} million:")
+        for c in populations:
+            if populations[c] < value:
+                print(f"- {c} ({populations[c]} million)")
+    except ValueError:
+        print("Invalid input. Skipping population comparison.")
+
+
+# --- recursive menu ---
+
+def main_menu(capitals, continents, populations):
+    print("\n--- Main Menu ---")
+    print("1. Add or Remove a Country")
+    print("2. View Country Details and Population Comparison")
+    print("3. View All Countries")
+    print("Q/q. Quit")
+
+    choice = input("Choose an option (1, 2, 3, or Q/q to quit): ").strip().lower()
+
+    if choice == '1':
+        update_countries(capitals, continents, populations)
+        main_menu(capitals, continents, populations)
+    elif choice == '2':
+        show_country_details(capitals, continents, populations)
+        main_menu(capitals, continents, populations)
+    elif choice == '3':
+        print("\nCurrent countries:")
+        print(list(capitals.keys()))
+        main_menu(capitals, continents, populations)
+    elif choice == 'q':
+        print("Exiting the program. Goodbye!")
+        return
+    else:
+        print("Invalid choice. Please select 1, 2, 3, or Q/q to quit.")
+        main_menu(capitals, continents, populations)
+
+
+# --- program entry point ---
+
+if __name__ == "__main__":
+    main()
