@@ -4,6 +4,7 @@ ISCH-620 Assignment 5: Dictionaries and Recursion
 GenAI Statement: I used GenAI to help with code structure and examples of how to use recursion with dictionaries. All code and comments are my own.
 '''
 
+
 # --- helper functions ---
 
 def get_menu_choice():
@@ -32,6 +33,7 @@ def get_population():
             return round(int(population) / 100) * 100
         print("Oops! That won't work. Please enter a numeric value for population.")
 
+
 # --- main program setup ---
 
 def main():
@@ -49,10 +51,10 @@ def main():
     while count < 3:
         country = get_country()
         if country is None:
-            print("You must enter at least three countries before quitting.")
+            print("You must enter at least three countries!")
             continue
         if country in capitals:
-            print("Country already entered. Please enter a different country.")
+            print("Silly goose detected! This country is already entered. Please enter a different country.")
             continue
 
         capital = get_capital()
@@ -84,7 +86,7 @@ def update_countries(capitals, continents, populations):
         if country is None:
             return
         if country in capitals:
-            print("Country already exists. Please enter a different country.")
+            print("That country already exists! Please enter a different country.")
             return
         capital = get_capital()
         continent = get_continent()
@@ -92,27 +94,27 @@ def update_countries(capitals, continents, populations):
         capitals[country] = capital
         continents[country] = continent
         populations[country] = population
-        print(f"{country} has been added.")
+        print(f"{country} has been added!")
 
     elif choice == '2':
         country = get_country()
         if country is None:
             return
         if country not in capitals:
-            print("Country not found. Please enter a valid country to remove.")
+            print("Country not found? Please enter a valid country to remove.")
             return
         del capitals[country]
         del continents[country]
         del populations[country]
-        print(f"{country} has been removed.")
+        print(f"{country} has been booted!")
 
     elif choice.lower() == 'q':
         return
 
     else:
-        print("Invalid choice. Please select 1, 2, or Q/q to quit.")
+        print("Oops! That won't work. Please select 1, 2, or Q/q to quit.")
 
-    print("\nCurrent countries:")
+    print("\nCurrent countries:")  # display updated list of countries
     print(list(capitals.keys()))
 
 
@@ -127,7 +129,7 @@ def show_country_details(capitals, continents, populations):
         print(f"Continent: {continents[country]}")
         print(f"Population: {populations[country]} million")
     else:
-        print("Country not found.")
+        print("Country not found!")
         return
 
     try:
@@ -135,16 +137,16 @@ def show_country_details(capitals, continents, populations):
         value = round(value / 100) * 100
 
         print(f"\nCountries with population above {value} million:")
-        for c in populations:
-            if populations[c] > value:
-                print(f"- {c} ({populations[c]} million)")
+        for c in populations:  # iterate through all countries
+            if populations[c] > value:  # display countries above the value
+                print(f"- {c} ({populations[c]} million)")  
 
         print(f"\nCountries with population below {value} million:")
         for c in populations:
-            if populations[c] < value:
+            if populations[c] < value:  # display countries below the value
                 print(f"- {c} ({populations[c]} million)")
     except ValueError:
-        print("Invalid input. Skipping population comparison.")
+        print("Oops! That won't work. Skipping population comparison.")
 
 
 # --- recursive menu ---
@@ -169,10 +171,10 @@ def main_menu(capitals, continents, populations):
         print(list(capitals.keys()))
         main_menu(capitals, continents, populations)
     elif choice == 'q':
-        print("Exiting the program. Goodbye!")
+        print("Exiting the country info program. Goodbye!")
         return
     else:
-        print("Invalid choice. Please select 1, 2, 3, or Q/q to quit.")
+        print("Oops! That won't work. Please select 1, 2, 3, or Q/q to quit.")
         main_menu(capitals, continents, populations)
 
 
